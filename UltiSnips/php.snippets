@@ -1,0 +1,121 @@
+snippet fix "add a fixme thing with date and name"
+//FIXME: $0 (dave | `date +%c`)
+endsnippet
+
+snippet mig "cakePHP migrate 1.3 -> 2"
+/*
+ * BEGIN: DAVE: `date +%Y-%m-%d` : cakePHP migration from 1.3
+ */
+$1
+/*
+ * END: DAVE
+ */
+
+endsnippet
+
+snippet view "add this var for cake View object"
+<?php
+/**
+ * @var View $this
+ */
+endsnippet
+
+snippet tc
+<?php
+/**
+ * Class: $1.
+ *
+ * @see CakeTestCase
+ */
+class ${1}Test extends CakeTestCase
+{
+    /**
+     * fixtures.
+     *
+     * @var array
+     */
+    public $fixtures = [
+        'app.$1'
+    ];
+
+    /**
+     * $1.
+     *
+     * @var $1
+     */
+    private $${1} = null
+
+    /**
+     * setUp.
+     *
+     * @return void
+     */
+    public function setUp()
+    {
+        parent::setUp();
+        $this->$1 = ClassRegistry::init('$1');
+    }
+
+    /**
+     * tearDown.
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        parent::tearDown();
+        unset($this->$1);
+    }
+}
+endsnippet
+
+snippet tf
+<?php
+class ${1}Fixture extends CakeTestFixture
+{
+    public $import  = [
+        'model'   => '$1',
+        'records' => false
+    ];
+
+    public function init()
+    {
+        $this->records = [
+            [
+                'id' => 1,
+            ]
+        ];
+        parent::init();
+    }
+}
+endsnippet
+
+snippet attpub
+/**
+ * $1.
+ *
+ * @var $1
+ */
+public $${1} = ${2:null};
+
+endsnippet
+
+snippet attpro
+/**
+ * $1.
+ *
+ * @var $1
+ */
+protected $${1} = ${2:null};
+
+endsnippet
+
+snippet attpri
+/**
+ * $1.
+ *
+ * @var $1
+ */
+private $${1} = ${2:null};
+
+endsnippet

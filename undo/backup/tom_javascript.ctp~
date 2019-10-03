@@ -1,0 +1,131 @@
+<!--<?php
+/**
+ * @var $this View
+ * @var $debug boolean
+ * @var $ad_takeover_name string
+ * @var $ad_popup_name string
+ * @var $ad_popup_video_url string
+ * @var $ad_popup_target_url string
+ * @var $adKeyword string
+ * @var $pageTitle string
+ */
+?>-->
+<?php
+$controller = (empty($this->params['controller'])) ? '' : $this->params['controller'];
+?>
+<script type="text/javascript">
+    <!--
+    TOM = {};
+    TOM.widgets = {};
+    TOM.baseUrl = "<?php echo FULL_BASE_URL . $this->base; ?>/";
+    TOM.domainUrl = "<?php echo FULL_BASE_URL; ?>";
+    TOM.relativeUrl = "<?php echo Router::url('/'); ?>";
+    TOM.imageUrl = TOM.relativeUrl + "<?php echo IMAGES_URL; ?>";
+    TOM.jsUrl = TOM.relativeUrl + "<?php echo JS_URL; ?>";
+    TOM.cssUrl = TOM.relativeUrl + "<?php echo CSS_URL; ?>";
+    TOM.minUrl = "<?php echo Configure::read('Script.minifyUrl'); ?>";
+    TOM.videos = {};
+    TOM.audio = {};
+    TOM.debug = <?php echo Configure::read('debug') ? 'true' : 'false'; ?>;
+    TOM.assetVersion = "<?php echo Configure::read('timestamp'); ?>";
+    TOM.widgets = {};
+    TOM.contentIsPremium = 0;
+    TOM.vastTagUrl = "<?php echo Configure::read('Adverts.vastTagUrl'); ?>";
+    TOM.facebookAppId = "<?php echo Configure::read('Services.Facebook.appId'); ?>";
+    TOM.googleLoginClientId = "<?php echo Configure::read('GoogleClient.accounts.timesofmalta.client_id'); ?>";
+    TOM.recaptcha = {};
+    TOM.recaptcha.recaptchaClientId = "<?php echo Configure::read('reCAPTCHA.clientside'); ?>";
+    TOM.recaptcha.recaptchaWidgets = {};
+    TOM.takeOverAdvert = <?php echo $ad_takeover_name ? ('"' . $ad_takeover_name . '"') : 'false'; ?>;
+    TOM.popUpVideoAdvertName = <?php echo $ad_popup_name ? ('"' . $ad_popup_name . '"') : 'false'; ?>;
+    TOM.popUpVideoAdvertUrl = <?php echo $ad_popup_video_url ? ('"' . $ad_popup_video_url . '"') : 'false'; ?>;
+    TOM.popUpVideoTargetUrl = <?php echo $ad_popup_target_url ? ('"' . $ad_popup_target_url . '"') : 'false'; ?>;
+    TOM.isMobile = <cake:nocache><?php echo $this->Tom->isMobile() ? 'true' : 'false'; ?></cake:nocache>;
+    TOM.changeLogLastEntry = <?php echo json_encode($changeLogEntry);?>;
+    TOM.author = "<?php echo isset($article) ? $article['Article']['author'] : 'not applicable';?>";
+    TOM.section = "<?php echo isset($navigationPath) ? implode(', ', $navigationPath) : 'not applicable'; ?>";
+    TOM.pageTitle = "<?php echo isset($pageTitle)? htmlspecialchars(strip_tags($pageTitle))
+            : "Times of Malta &#8210; General, sporting, and business news for Malta and the surrounding region" ?>";
+
+    <?php if (isset($admin) && $admin) : ?>
+    TOM.adminNotificationsUrl = "<?php
+        echo $this->Html->url(array('controller' => 'users', 'action' => 'notifications', 'admin' => 1));
+        ?>";
+    <?php endif; ?>
+
+    <?php if ($minifyMap = TOM_Minify::getJsMap()) : ?>
+    <?php echo('TOM.minifyMap = ' . json_encode($minifyMap)); ?>
+    <?php endif; ?>
+
+    var googletag = googletag || {};
+    googletag.cmd = googletag.cmd || [];
+    (function () {
+        var gads = document.createElement('script');
+        gads.async = true;
+        gads.type = 'text/javascript';
+        var useSSL = 'https:' === document.location.protocol;
+        gads.src = (useSSL ? 'https:' : 'http:') +
+                '//www.googletagservices.com/tag/js/gpt.js';
+        var node = document.getElementsByTagName('script')[0];
+        node.parentNode.insertBefore(gads, node);
+    })();
+
+    googletag.cmd.push(function () {
+        <cake:nocache>
+        <?php
+        $networkCode = Configure::read('Adverts.googleNetworkCode');
+        $units = Configure::read('Adverts.googleUnits');
+        $dimensions = Configure::read('Adverts.dimensions');
+        $googleTagTpl = "googletag.defineSlot('/$networkCode/%s', %s, '%s').addService(googletag.pubads()).setTargeting('keyword', '$adKeyword');";
+        if ($this->Tom->isMobile()) {
+            echo sprintf(
+                $googleTagTpl,
+                'MobileBanner',
+                json_encode($dimensions[AD_MOBILE]),
+                $units[AD_MOBILE]
+            );
+        } else {
+            $ads = [
+                AD_LEADERBOARD       => 'Leaderboard',
+                AD_RECTANGLE_BOTTOM  => 'Rectangular-Bottom',
+                AD_RECTANGLE_TOP     => 'Rectangular-TOP',
+                AD_SKYSCRAPER        => 'Skyscraper',
+                AD_SMALL_LEADERBOARD => 'ClassicBanner',
+            ];
+            array_walk($ads, function ($slot, $key) use ($googleTagTpl, $dimensions, $units) {
+                echo sprintf(
+                    $googleTagTpl,
+                    $slot,
+                    json_encode($dimensions[$key]),
+                    $units[$key]
+                );
+            });
+        }
+        ?>
+        </cake:nocache>
+        googletag.pubads().setTargeting('keyword', '<?php echo($adKeyword); ?>');
+        googletag.enableServices();
+    });
+    -->
+</script>
+<?php $paywall_required = isset($paywall_required) ? $paywall_required : false; ?>
+<?php echo $this->Tomcache->persist('paywall_required', $paywall_required); ?>
+
+<script type="text/javascript">
+    TOM.userId      = <?php echo intval($this->Tom->userInfo('id')); ?>;
+    TOM.hasPremium  = <?php echo intval($this->Tom->hasPremium()); ?>;
+    TOM.userCredits = <?php echo intval($this->Tom->userCredits()); ?>;
+    TOM.userType   = {
+            type    : "",
+            setType : function(){
+                this.type = !TOM.userId ? 'anon' : (TOM.hasPremium ? 'paid' : 'lgdin');
+            }
+        };
+    TOM.userType.setType();
+
+    <?php if ($paywall_required) : ?>
+    TOM.userIsFreePaywalled = <?php echo intval($this->Tom->isPaywalled()); ?>;
+    TOM.userIsPremiumPaywalled = <?php echo intval($this->Tom->isPaywalled(true)); ?>;
+    TOM.userIsInternational = <?php echo intval($this->Tom->isInternational()); ?>;
+    <?php endif; ?>
+</script>

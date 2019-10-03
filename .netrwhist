@@ -1,0 +1,9 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =7
+let g:netrw_dirhist_7='/srv/tom/web-v5/app/Lib/Tom/OAuth'
+let g:netrw_dirhist_6='/srv/tom/web-v5/app/Lib/Tom/OAuth/Client'
+let g:netrw_dirhist_5='/srv/tom/web-v5/app/Config'
+let g:netrw_dirhist_4='/srv/tom/web-v5/.semaphore'
+let g:netrw_dirhist_3='/srv/tom/web-v5/app/Model/Datasource/Session'
+let g:netrw_dirhist_2='/srv/tom/web-v3/app/views/elements/widgets'
+let g:netrw_dirhist_1='/srv/tom/web-v5/app/Lib/Tom/JsonLd'
